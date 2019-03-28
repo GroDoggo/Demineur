@@ -87,8 +87,10 @@ void draw()
 
 
 void mousePressed() {
-  visible[3][2] = 1; 
-  caseClic();
+  //visible[3][2] = 1; 
+  int i = (mouseX - decalageX) / TX;
+  int j = (mouseY - decalageY) / TY;
+  visible[i][j]=cache[i][j];
 }
 
 void preparerMines(){
@@ -150,11 +152,4 @@ for (int i = 0; i < 10; i++){
     }
   }
   
-}
-
-void caseClic(){
-  int i = (mouseX - decalageX) / TX;
-  int j = (mouseY - decalageY) / TY;
-  print(i);
-  println(j);
 }
