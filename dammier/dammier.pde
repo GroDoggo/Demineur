@@ -18,17 +18,12 @@ int ligne = 0;
 int colonne = 0;
 int num = 0;
 
-
-
 PImage caseVide;
 PImage case1;
-int TX= 50;
+int TX= 40;
 int TY = 50;
-int largeurF =1200;
-int hauteurF =750;
-int decalageX=largeurF/2;
-int decalageY =hauteurF/2;
-
+int decalageX=50;
+int decalageY =50;
 
 int [][] visible = 
 
@@ -61,7 +56,7 @@ int [][] visible =
 
 void setup ()
 {
-  size (1200,750); 
+  fullScreen (); 
   background (#FFFFFF);
   //Sylvain
   caseVide=loadImage("caseVide.PNG");
@@ -91,6 +86,7 @@ void draw()
 
 void mousePressed() {
   visible[3][2] = 1; 
+  caseClic();
 }
 
 void preparerMines(){
@@ -152,4 +148,11 @@ for (int i = 0; i < 10; i++){
     }
   }
   
+}
+
+void caseClic(){
+  int i = (mouseX - decalageX) / TX;
+  int j = (mouseY - decalageY) / TY;
+  print(i);
+  println(j);
 }
