@@ -22,7 +22,7 @@ PImage caseVide;
 PImage case1;
 int TX= 40;
 int TY = 50;
-int decalageX=50;
+int decalageX=;
 int decalageY =50;
 
 int [][] visible = 
@@ -80,16 +80,7 @@ void setup ()
 /* la méthode qui s'exécute en boucle */
 void draw()
 {
-  for (int i = 0; i < 10; i++){
-    for(int j = 0; j < 10; j++){
-      if (visible[i][j] == 0){
-        image(caseVide, i*TX + decalageX, j*TY+decalageY);
-      }
-      if (visible[i][j] == 1){
-        image(case1, i*TX+decalageX, j*TY+decalageY);
-      }
-    }
-  }
+  afficherCase ();
 }
 
 
@@ -141,4 +132,19 @@ void preparerMines(){
       }
     }
   }
+}
+
+void afficherCase()
+{
+for (int i = 0; i < 10; i++){
+    for(int j = 0; j < 10; j++){
+      if (visible[i][j] == 0){
+        image(caseVide, i*TX + decalageX, j*TY+decalageY);
+      }
+      if (visible[i][j] == 1){
+        image(case1, i*TX+decalageX, j*TY+decalageY);
+      }
+    }
+  }
+  
 }
