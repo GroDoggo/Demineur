@@ -20,10 +20,12 @@ int num = 0;
 
 PImage caseVide;
 PImage case1;
-int TX= 40;
+int TX= 50;
 int TY = 50;
-int decalageX=50;
-int decalageY =50;
+int largeurF =1200;
+int hauteurF =750;
+int decalageX=largeurF/2;
+int decalageY =hauteurF/2;
 
 int [][] visible = 
 
@@ -56,7 +58,7 @@ int [][] visible =
 
 void setup ()
 {
-  fullScreen (); 
+  size (1200,750); 
   background (#FFFFFF);
   //Sylvain
   caseVide=loadImage("caseVide.PNG");
