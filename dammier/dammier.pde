@@ -20,7 +20,7 @@ int num = 0;
 
 PImage caseVide;
 PImage case1;
-int TX= 50;
+int TX= 40;
 int TY = 50;
 int decalageX=50;
 int decalageY =50;
