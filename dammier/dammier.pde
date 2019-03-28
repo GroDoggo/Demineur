@@ -24,8 +24,8 @@ int TX= 50;
 int TY = 50;
 int largeurF =1200;
 int hauteurF =750;
-int decalageX=largeurF/2;
-int decalageY =hauteurF/2;
+int decalageX=largeurF/2-250;
+int decalageY =hauteurF/2-250;
 
 int [][] visible = 
 
@@ -59,7 +59,7 @@ int [][] visible =
 void setup ()
 {
   size (1200,750); 
-  background (#FFFFFF);
+  background (#000080);
   //Sylvain
   caseVide=loadImage("caseVide.PNG");
   caseVide.resize(TX,TY);
