@@ -79,35 +79,36 @@ void setup ()
    case2=loadImage("2.PNG");
    case2.resize(TX,TY);
   case2.loadPixels();
-  
+
    case3=loadImage("3.PNG");
    case3.resize(TX,TY);
   case3.loadPixels();
-  
+
    case4=loadImage("4.PNG");
    case4.resize(TX,TY);
   case4.loadPixels();
-  
+
    case5=loadImage("5.PNG");
    case5.resize(TX,TY);
   case5.loadPixels();
-  
+
    case6=loadImage("6.PNG");
    case6.resize(TX,TY);
   case6.loadPixels();
-  
+
    case7=loadImage("7.PNG");
    case7.resize(TX,TY);
   case7.loadPixels();
-  
+
    case8=loadImage("8.PNG");
    case8.resize(TX,TY);
   case8.loadPixels();
+  
   //leopaul
   preparerMines();
-  for (int i = 0 ; i < 10 ; i++){
+  for (int j = 0 ; j < 10 ; j++){
     println();
-    for(int j = 0; j< 10; j++){
+    for(int i = 0; i< 10; i++){
       print(cache[i][j]);
     }
   }
@@ -126,7 +127,8 @@ void mousePressed() {
   //visible[3][2] = 1; 
   int i = (mouseX - decalageX) / TX;
   int j = (mouseY - decalageY) / TY;
-  visible[i][j]=cache[i][j];
+
+  if (visible[i][j] != 11) visible[i][j]=cache[i][j]; //Si il n'y a pas de drapeau la case se révèle
 }
 
 void preparerMines(){
@@ -185,29 +187,29 @@ for (int i = 0; i < 10; i++){
       if (visible[i][j] == 1){
         image(case1, i*TX+decalageX, j*TY+decalageY);
       }
-      if (visible[i][j] == 2){
+       if (visible[i][j] == 2){
         image(case2, i*TX+decalageX, j*TY+decalageY);
       }
       if (visible[i][j] == 3){
         image(case3, i*TX+decalageX, j*TY+decalageY);
       }
-      
+
       if (visible[i][j] == 4){
         image(case4, i*TX+decalageX, j*TY+decalageY);
       }
-      
+
       if (visible[i][j] == 5){
         image(case5, i*TX+decalageX, j*TY+decalageY);
       }
-      
+
       if (visible[i][j] == 6){
         image(case6, i*TX+decalageX, j*TY+decalageY);
       }
-      
+
       if (visible[i][j] == 7){
         image(case7, i*TX+decalageX, j*TY+decalageY);
       }
-      
+
       if (visible[i][j] == 8){
         image(case8, i*TX+decalageX, j*TY+decalageY);
       }
