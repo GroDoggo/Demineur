@@ -19,6 +19,7 @@ int colonne = 0;
 int num = 0;
 
 PImage caseVide;
+PImage caseVideOuverte;
 PImage case1;
 PImage case2;
 PImage case3;
@@ -27,6 +28,8 @@ PImage case5;
 PImage case6;
 PImage case7;
 PImage case8;
+PImage drapeau;
+PImage mine;
 
 int TX= 50;
 int TY = 50;
@@ -72,6 +75,11 @@ void setup ()
   caseVide=loadImage("caseVide.PNG");
   caseVide.resize(TX,TY);
   caseVide.loadPixels();
+  
+   caseVideOuverte=loadImage("caseVideOuverte.png");
+  caseVideOuverte.resize(TX,TY);
+  caseVideOuverte.loadPixels();
+  
   case1=loadImage("1.PNG");
    case1.resize(TX,TY);
   case1.loadPixels();
@@ -103,6 +111,14 @@ void setup ()
    case8=loadImage("8.PNG");
    case8.resize(TX,TY);
   case8.loadPixels();
+  
+  drapeau=loadImage("drapeau.png");
+   drapeau.resize(TX,TY);
+  drapeau.loadPixels();
+  
+   mine=loadImage("mine.png");
+   mine.resize(TX,TY);
+  mine.loadPixels();
   
   //leopaul
   preparerMines();
@@ -213,6 +229,18 @@ for (int i = 0; i < 10; i++){
       if (visible[i][j] == 8){
         image(case8, i*TX+decalageX, j*TY+decalageY);
       }
+    
+     if (visible[i][j] == 10){
+        image(caseVideOuverte, i*TX+decalageX, j*TY+decalageY);
+    }
+      
+      if (visible[i][j] == 11){
+        image(drapeau, i*TX+decalageX, j*TY+decalageY);
+    }
+    
+     if (visible[i][j] == 9){
+        image(mine, i*TX+decalageX, j*TY+decalageY);
+    }
     }
   }
   
