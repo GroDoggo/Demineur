@@ -20,6 +20,14 @@ int num = 0;
 
 PImage caseVide;
 PImage case1;
+PImage case2;
+PImage case3;
+PImage case4;
+PImage case5;
+PImage case6;
+PImage case7;
+PImage case8;
+
 int TX= 50;
 int TY = 50;
 int largeurF =1200;
@@ -67,6 +75,34 @@ void setup ()
   case1=loadImage("1.PNG");
    case1.resize(TX,TY);
   case1.loadPixels();
+  
+   case2=loadImage("2.PNG");
+   case2.resize(TX,TY);
+  case2.loadPixels();
+  
+   case3=loadImage("3.PNG");
+   case3.resize(TX,TY);
+  case3.loadPixels();
+  
+   case4=loadImage("4.PNG");
+   case4.resize(TX,TY);
+  case4.loadPixels();
+  
+   case5=loadImage("5.PNG");
+   case5.resize(TX,TY);
+  case5.loadPixels();
+  
+   case6=loadImage("6.PNG");
+   case6.resize(TX,TY);
+  case6.loadPixels();
+  
+   case7=loadImage("7.PNG");
+   case7.resize(TX,TY);
+  case7.loadPixels();
+  
+   case8=loadImage("8.PNG");
+   case8.resize(TX,TY);
+  case8.loadPixels();
   //leopaul
   preparerMines();
   for (int i = 0 ; i < 10 ; i++){
@@ -148,6 +184,32 @@ for (int i = 0; i < 10; i++){
       }
       if (visible[i][j] == 1){
         image(case1, i*TX+decalageX, j*TY+decalageY);
+      }
+      if (visible[i][j] == 2){
+        image(case2, i*TX+decalageX, j*TY+decalageY);
+      }
+      if (visible[i][j] == 3){
+        image(case3, i*TX+decalageX, j*TY+decalageY);
+      }
+      
+      if (visible[i][j] == 4){
+        image(case4, i*TX+decalageX, j*TY+decalageY);
+      }
+      
+      if (visible[i][j] == 5){
+        image(case5, i*TX+decalageX, j*TY+decalageY);
+      }
+      
+      if (visible[i][j] == 6){
+        image(case6, i*TX+decalageX, j*TY+decalageY);
+      }
+      
+      if (visible[i][j] == 7){
+        image(case7, i*TX+decalageX, j*TY+decalageY);
+      }
+      
+      if (visible[i][j] == 8){
+        image(case8, i*TX+decalageX, j*TY+decalageY);
       }
     }
   }
