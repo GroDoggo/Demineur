@@ -75,14 +75,13 @@ void setup ()
   caseVide=loadImage("caseVide.PNG");
   caseVide.resize(TX,TY);
   caseVide.loadPixels();
-  
-   caseVideOuverte=loadImage("caseVideOuverte.png");
-  caseVideOuverte.resize(TX,TY);
-  caseVideOuverte.loadPixels();
-  
   case1=loadImage("1.PNG");
    case1.resize(TX,TY);
   case1.loadPixels();
+  
+  caseVideOuverte=loadImage("caseVideOuverte.png");
+  caseVideOuverte.resize(TX,TY);
+  caseVideOuverte.loadPixels();
   
    case2=loadImage("2.PNG");
    case2.resize(TX,TY);
@@ -115,7 +114,7 @@ void setup ()
   drapeau=loadImage("drapeau.png");
    drapeau.resize(TX,TY);
   drapeau.loadPixels();
-  
+
    mine=loadImage("mine.png");
    mine.resize(TX,TY);
   mine.loadPixels();
@@ -143,8 +142,18 @@ void mousePressed() {
   //visible[3][2] = 1; 
   int i = (mouseX - decalageX) / TX;
   int j = (mouseY - decalageY) / TY;
-
-  if (visible[i][j] != 11) visible[i][j]=cache[i][j]; //Si il n'y a pas de drapeau la case se révèle
+  if (i >= 0 && i < 10 && j >= 0 && j < 10){
+    if(mouseButton == LEFT){
+      if (visible[i][j] != 11) visible[i][j]=cache[i][j]; //Si il n'y a pas de drapeau la case se révèle
+      if (cache[i][j] == 0) visible[i][j] = 10; //Affiche une case vide
+    } else if(mouseButton == RIGHT){
+      println("right");
+      println(i);
+      println(j);
+      if (visible[i][j] == 0) visible[i][j] = 11; //place un drapeau si la case n'a pas été découverte
+      if (visible[i][j] == 11) visible[i][j] = 0; //enleve le drapeau si il y en a 1
+    }
+  }
 }
 
 void preparerMines(){
@@ -229,15 +238,15 @@ for (int i = 0; i < 10; i++){
       if (visible[i][j] == 8){
         image(case8, i*TX+decalageX, j*TY+decalageY);
       }
-    
-     if (visible[i][j] == 10){
+      
+       if (visible[i][j] == 10){
         image(caseVideOuverte, i*TX+decalageX, j*TY+decalageY);
     }
-      
+
       if (visible[i][j] == 11){
         image(drapeau, i*TX+decalageX, j*TY+decalageY);
     }
-    
+
      if (visible[i][j] == 9){
         image(mine, i*TX+decalageX, j*TY+decalageY);
     }
