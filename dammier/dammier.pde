@@ -17,7 +17,6 @@ int nbMines = 10;
 int ligne = 0;
 int colonne = 0;
 int num = 0;
-int numDrapeau = 0;
 
 PImage caseVide;
 PImage caseVideOuverte;
@@ -135,11 +134,7 @@ void setup ()
 /* la méthode qui s'exécute en boucle */
 void draw()
 {
-  background (#000080);
   afficherCase ();
-  if(numDrapeau == nbMines){
-    boutonOK();
-  }
 }
 
 
@@ -155,14 +150,8 @@ void mousePressed() {
       println("right");
       println(i);
       println(j);
-      if (visible[i][j] == 11){
-        visible[i][j] = 0;
-        numDrapeau--;//enleve le drapeau si il y en a 1
-      }else if(visible[i][j] == 0){
-        visible[i][j] = 11;
-        numDrapeau++;//place un drapeau si la case n'a pas été découverte
-      }
-      
+      if (visible[i][j] == 0) visible[i][j] = 11; //place un drapeau si la case n'a pas été découverte
+      if (visible[i][j] == 11) visible[i][j] = 0; //enleve le drapeau si il y en a 1
     }
   }
 }
@@ -264,12 +253,4 @@ for (int i = 0; i < 10; i++){
     }
   }
   
-}
-
-void boutonOK(){
-  fill(#16A707);
-  rect(10,10,175,50);
-  fill(#000000);
-  textSize(40);
-  text("VALIDER",15,50);
 }
