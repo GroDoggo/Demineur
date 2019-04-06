@@ -31,6 +31,7 @@ PImage case7;
 PImage case8;
 PImage drapeau;
 PImage mine;
+PImage valider;
 
 int TX= 50;
 int TY = 50;
@@ -120,6 +121,10 @@ void setup ()
    mine.resize(TX,TY);
   mine.loadPixels();
   
+  valider=loadImage("valider.png");
+  valider.resize(260,130);
+  valider.loadPixels();
+  
   //leopaul
   preparerMines();
   for (int j = 0 ; j < 10 ; j++){
@@ -158,7 +163,7 @@ void mousePressed() {
        if (visible[i][j] == 11){
         visible[i][j] = 0;
         numDrapeau--;//enleve le drapeau si il y en a 1
-      }else if(visible[i][j] == 0){
+      }else if(visible[i][j] == 0 & numDrapeau <10){                        
         visible[i][j] = 11;
         numDrapeau++;//place un drapeau si la case n'a pas été découverte
       }
@@ -179,7 +184,7 @@ void preparerMines(){
       cache[ligne][colonne] = 9;
     }
   }
-  //On determine les chiifres
+  //On determine les chiffres
   for (int i = 0 ; i < 10 ; i++){ //ligne
     for(int j = 0; j< 10; j++){  //colonne
       num = 0;
@@ -268,9 +273,10 @@ for (int i = 0; i < 10; i++){
 }
 
 void boutonOK(){
-  fill(#16A707);
+  /*fill(#16A707);
   rect(10,10,175,50);
   fill(#000000);
   textSize(40);
-  text("VALIDER",15,50);
+  text("VALIDER",15,50);*/
+  image(valider,40,50);
 }
