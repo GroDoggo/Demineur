@@ -2,22 +2,19 @@
 //Afficher Damier///
 ////////////////////
 
-int [][] cache = //le joueur ne voit pas
-  { {0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0} };
-int nbMines = 10;
+int [][] cache = new int[100][100];
+    
+    
+int nbMines;
+int level = 0;
+int hauteur;
+int largeur;
 int ligne = 0;
 int colonne = 0;
 int num = 0;
 int numDrapeau = 0;
+boolean validation = false;
+int partie = 0; //0 => menu; 1 => en partie; 2 => perdu ; 3 => gagné
 
 PImage caseVide;
 PImage caseVideOuverte;
@@ -40,119 +37,39 @@ int hauteurF =750;
 int decalageX=largeurF/2-250;
 int decalageY =hauteurF/2-250;
 
-int [][] visible = 
-
-  { {0,0,0,0,0,0,0,0,0,0},
-
-    {0,0,0,0,0,0,0,0,0,0},
-
-    {0,0,0,0,0,0,0,0,0,0},
-
-    {0,0,0,0,0,0,0,0,0,0},
-
-    {0,0,0,0,0,0,0,0,0,0},
-
-    {0,0,0,0,0,0,0,0,0,0},
-
-    {0,0,0,0,0,0,0,0,0,0},
-
-    {0,0,0,0,0,0,0,0,0,0},
-
-    {0,0,0,0,0,0,0,0,0,0},
-
-    {0,0,0,0,0,0,0,0,0,0} };
-    
-    
-  
-  
-
-    
+int [][] visible = new int[100][100];  
 //Méthode qui s'éxecute au démarrage
 
 void setup ()
 {
   size (1200,750); 
   background (#000080);
-  //Sylvain
-  caseVide=loadImage("caseVide.PNG");
-  caseVide.resize(TX,TY);
-  caseVide.loadPixels();
-  case1=loadImage("1.PNG");
-   case1.resize(TX,TY);
-  case1.loadPixels();
-  
-  caseVideOuverte=loadImage("caseVideOuverte.png");
-  caseVideOuverte.resize(TX,TY);
-  caseVideOuverte.loadPixels();
-  
-   case2=loadImage("2.PNG");
-   case2.resize(TX,TY);
-  case2.loadPixels();
-
-   case3=loadImage("3.PNG");
-   case3.resize(TX,TY);
-  case3.loadPixels();
-
-   case4=loadImage("4.PNG");
-   case4.resize(TX,TY);
-  case4.loadPixels();
-
-   case5=loadImage("5.PNG");
-   case5.resize(TX,TY);
-  case5.loadPixels();
-
-   case6=loadImage("6.PNG");
-   case6.resize(TX,TY);
-  case6.loadPixels();
-
-   case7=loadImage("7.PNG");
-   case7.resize(TX,TY);
-  case7.loadPixels();
-
-   case8=loadImage("8.PNG");
-   case8.resize(TX,TY);
-  case8.loadPixels();
-  
-  drapeau=loadImage("drapeau.png");
-   drapeau.resize(TX,TY);
-  drapeau.loadPixels();
-
-   mine=loadImage("mine.png");
-   mine.resize(TX,TY);
-  mine.loadPixels();
-  
-  valider=loadImage("valider.png");
-  valider.resize(260,130);
-  valider.loadPixels();
-  
-  //leopaul
-  preparerMines();
-  for (int j = 0 ; j < 10 ; j++){
-    println();
-    for(int i = 0; i< 10; i++){
-      print(cache[i][j]);
-    }
-  }
- 
+  debut();
 }
 
 
 /* la méthode qui s'exécute en boucle */
 void draw()
 {
-  background (#000080);
-  afficherCase ();
+  if (partie == 1){
+    background (#000080);
+    afficherCase ();
     if(numDrapeau == nbMines){
-    boutonOK();
+      boutonOK();
+      validation = true;
+    } else {
+      validation = false;
+    }
+  } else if (partie == 0){
+    //menu
   }
 }
 
 
 void mousePressed() {
-  //visible[3][2] = 1; 
   int i = (mouseX - decalageX) / TX;
   int j = (mouseY - decalageY) / TY;
-  if (i >= 0 && i < 10 && j >= 0 && j < 10){
+  if (i >= 0 && i < largeur && j >= 0 && j < hauteur){
     if(mouseButton == LEFT){
       if (visible[i][j] != 11) visible[i][j]=cache[i][j]; //Si il n'y a pas de drapeau la case se révèle
       if (cache[i][j] == 0) visible[i][j] = 10; //Affiche une case vide
@@ -160,24 +77,34 @@ void mousePressed() {
       println("right");
       println(i);
       println(j);
-       if (visible[i][j] == 11){
+      if (visible[i][j] == 11){
         visible[i][j] = 0;
         numDrapeau--;//enleve le drapeau si il y en a 1
-      }else if(visible[i][j] == 0 & numDrapeau <10){                        
+      }else if(visible[i][j] == 0 & numDrapeau < nbMines){                        
         visible[i][j] = 11;
         numDrapeau++;//place un drapeau si la case n'a pas été découverte
       }
-
-
     }
+  }
+  if (validation == true && mouseX > 40 && mouseX < (260+40) && mouseY > 50 && mouseY < (50+130)){
+    println("ok");
+    verification();
   }
 }
 
 void preparerMines(){
+  //Mettre tout a 0
+  for (int j = 0; j < hauteur ;j++){
+    for (int i = 0; i < largeur; i++){
+      cache[i][j] = 0;
+      visible[i][j] = 0;
+    }
+  }
+  //Poser les mines
   for (int i=0; i < nbMines ; i++) //Les mines sont disposés aléatoirement
   {
-    ligne = int(random(10));
-    colonne = int(random(10));
+    ligne = int(random(largeur));
+    colonne = int(random(hauteur));
     if (cache[ligne][colonne] == 9){
       i--;
     } else {
@@ -185,8 +112,8 @@ void preparerMines(){
     }
   }
   //On determine les chiffres
-  for (int i = 0 ; i < 10 ; i++){ //ligne
-    for(int j = 0; j< 10; j++){  //colonne
+  for (int i = 0 ; i < largeur ; i++){ //ligne
+    for(int j = 0; j < hauteur; j++){  //colonne
       num = 0;
       if (i != 0 && j != 0){
          if (cache[i-1][j-1] == 9) num++;
@@ -194,22 +121,22 @@ void preparerMines(){
       if (j != 0){
          if (cache[i][j-1] == 9) num++;
       }
-      if (i != 9 && j != 0){
+      if (i != (largeur-1) && j != 0){
          if (cache[i+1][j-1] == 9) num++;
       }
       if (i != 0){
          if (cache[i-1][j] == 9) num++;
       }
-      if (i !=9){
+      if (i !=(largeur-1)){
          if (cache[i+1][j] == 9) num++;
       }
-      if (i != 0 && j != 9){
+      if (i != 0 && j != (hauteur-1)){
          if (cache[i-1][j+1] == 9) num++;
       }
       if (j != 9){
          if (cache[i][j+1] == 9) num++;
       }
-      if (i != 9 && j != 9){
+      if (i != (largeur-1) && j != (hauteur-1)){
          if (cache[i+1][j+1] == 9) num++;
       }
       if (cache[i][j] != 9){
@@ -221,8 +148,8 @@ void preparerMines(){
 
 void afficherCase()
 {
-for (int i = 0; i < 10; i++){
-    for(int j = 0; j < 10; j++){
+for (int i = 0; i < largeur; i++){
+    for(int j = 0; j < hauteur; j++){
       if (visible[i][j] == 0){
         image(caseVide, i*TX + decalageX, j*TY+decalageY);
       }
@@ -279,4 +206,109 @@ void boutonOK(){
   textSize(40);
   text("VALIDER",15,50);*/
   image(valider,40,50);
+}
+
+void difficulte(){
+  if (level == 0){
+    largeur = 10;
+    hauteur = 10;
+    nbMines = 10;
+    TX= 50;
+    TY = 50;
+  } else if (level == 1){
+    largeur = 16;
+    hauteur = 16;
+    nbMines = 40;
+    TX= 35;
+    TY = 35;
+  } else if (level == 2){
+    largeur = 30;
+    hauteur = 16;
+    nbMines = 99;
+    TX= 20;
+    TY = 35;
+  }
+}
+
+void verification(){
+  for (int i = 0; i < largeur; i++){
+    for(int j = 0; j < hauteur; j++){
+      if (cache[i][j] == 9){
+        if (visible[i][j] == 11){
+          visible[i][j] = 12; //mine en jaune
+        } else {
+          visible[i][j] = 9;
+          partie = 2;
+        }
+      }
+    }
+  }
+  afficherCase();
+}
+
+void debut(){
+  
+  difficulte();
+  //Sylvain
+  caseVide=loadImage("caseVide.PNG");
+  caseVide.resize(TX,TY);
+  caseVide.loadPixels();
+  case1=loadImage("1.PNG");
+   case1.resize(TX,TY);
+  case1.loadPixels();
+  
+  caseVideOuverte=loadImage("caseVideOuverte.png");
+  caseVideOuverte.resize(TX,TY);
+  caseVideOuverte.loadPixels();
+  
+   case2=loadImage("2.PNG");
+   case2.resize(TX,TY);
+  case2.loadPixels();
+
+   case3=loadImage("3.PNG");
+   case3.resize(TX,TY);
+  case3.loadPixels();
+
+   case4=loadImage("4.PNG");
+   case4.resize(TX,TY);
+  case4.loadPixels();
+
+   case5=loadImage("5.PNG");
+   case5.resize(TX,TY);
+  case5.loadPixels();
+
+   case6=loadImage("6.PNG");
+   case6.resize(TX,TY);
+  case6.loadPixels();
+
+   case7=loadImage("7.PNG");
+   case7.resize(TX,TY);
+  case7.loadPixels();
+
+   case8=loadImage("8.PNG");
+   case8.resize(TX,TY);
+  case8.loadPixels();
+  
+  drapeau=loadImage("drapeau.png");
+   drapeau.resize(TX,TY);
+  drapeau.loadPixels();
+
+   mine=loadImage("mine.png");
+   mine.resize(TX,TY);
+  mine.loadPixels();
+  
+  valider=loadImage("valider.png");
+  valider.resize(260,130);
+  valider.loadPixels();
+  
+  //leopaul
+  
+  preparerMines();
+  partie = 1;
+  for (int j = 0 ; j < hauteur ; j++){
+    println();
+    for(int i = 0; i < largeur; i++){
+      print(cache[i][j]);
+    }
+  }
 }
