@@ -196,11 +196,10 @@ for (int i = 0; i < largeur; i++){
 
      if (visible[i][j] == 9){
         image(mine, i*TX+decalageX, j*TY+decalageY);
-        
+     }
         
      if (visible[i][j] == 12){
         image(goldMine, i*TX+decalageX, j*TY+decalageY);
-    }
     }
     }
   }
@@ -251,6 +250,9 @@ void verification(){
     }
   }
   afficherCase();
+  if (partie == 1){
+    //Afficher GAGNE
+  }
 }
 
 void debut(){
@@ -320,6 +322,7 @@ void debut(){
   
   preparerMines();
   partie = 1;
+  numDrapeau = 0;
   for (int j = 0 ; j < hauteur ; j++){
     println();
     for(int i = 0; i < largeur; i++){
