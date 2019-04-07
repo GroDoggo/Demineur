@@ -29,6 +29,8 @@ PImage case8;
 PImage drapeau;
 PImage mine;
 PImage valider;
+PImage gazon;
+PImage goldMine;
 
 int TX= 50;
 int TY = 50;
@@ -52,7 +54,7 @@ void setup ()
 void draw()
 {
   if (partie == 1){
-    background (#000080);
+    background (gazon);
     afficherCase ();
     if(numDrapeau == nbMines){
       boutonOK();
@@ -73,6 +75,7 @@ void mousePressed() {
     if(mouseButton == LEFT){
       if (visible[i][j] != 11) visible[i][j]=cache[i][j]; //Si il n'y a pas de drapeau la case se révèle
       if (cache[i][j] == 0) visible[i][j] = 10; //Affiche une case vide
+      if (cache[i][j] ==9) image(drapeau,100,500);
     } else if(mouseButton == RIGHT){
       println("right");
       println(i);
@@ -193,6 +196,11 @@ for (int i = 0; i < largeur; i++){
 
      if (visible[i][j] == 9){
         image(mine, i*TX+decalageX, j*TY+decalageY);
+        
+        
+     if (visible[i][j] == 12){
+        image(goldMine, i*TX+decalageX, j*TY+decalageY);
+    }
     }
     }
   }
@@ -200,11 +208,7 @@ for (int i = 0; i < largeur; i++){
 }
 
 void boutonOK(){
-  /*fill(#16A707);
-  rect(10,10,175,50);
-  fill(#000000);
-  textSize(40);
-  text("VALIDER",15,50);*/
+ 
   image(valider,40,50);
 }
 
@@ -234,8 +238,11 @@ void verification(){
   for (int i = 0; i < largeur; i++){
     for(int j = 0; j < hauteur; j++){
       if (cache[i][j] == 9){
+        
+       
         if (visible[i][j] == 11){
           visible[i][j] = 12; //mine en jaune
+         
         } else {
           visible[i][j] = 9;
           partie = 2;
@@ -297,9 +304,17 @@ void debut(){
    mine.resize(TX,TY);
   mine.loadPixels();
   
+   goldMine=loadImage("goldMine.png");
+   goldMine.resize(TX,TY);
+  goldMine.loadPixels();
+  
   valider=loadImage("valider.png");
   valider.resize(260,130);
   valider.loadPixels();
+  
+  gazon=loadImage("gazon.png");
+  gazon.loadPixels();
+  
   
   //leopaul
   
