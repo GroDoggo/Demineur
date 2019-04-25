@@ -112,9 +112,14 @@ void mousePressed() {
     debut();
   }
   if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 390 && mouseY < (390+75)){
-    println("facile");
+    println("difficile");
     level = 2;
     debut();
+  }
+  
+   if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 580 && mouseY < (580+75)){
+    println("quitter");
+    exit();
   }
 }
 
