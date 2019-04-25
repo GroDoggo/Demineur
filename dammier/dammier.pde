@@ -14,6 +14,7 @@ int colonne = 0;
 int num = 0;
 int numDrapeau = 0;
 boolean validation = false;
+boolean menu1 = false;
 int partie = 0; //0 => menu; 1 => en partie; 2 => perdu ; 3 => gagné
 
 PImage caseVide;
@@ -31,6 +32,10 @@ PImage mine;
 PImage valider;
 PImage gazon;
 PImage goldMine;
+PImage facile;
+PImage moyen;
+PImage difficile;
+PImage quitterMenu;
 
 int TX= 50;
 int TY = 50;
@@ -47,6 +52,7 @@ void setup ()
   size (1200,750); 
   background (#000080);
   debut();
+  partie = 0;
 }
 
 
@@ -63,7 +69,7 @@ void draw()
       validation = false;
     }
   } else if (partie == 0){
-    //menu
+    menu();
   }
 }
 
@@ -92,6 +98,23 @@ void mousePressed() {
   if (validation == true && mouseX > 40 && mouseX < (260+40) && mouseY > 50 && mouseY < (50+130)){
     println("ok");
     verification();
+  }
+  
+  
+   if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 10 && mouseY < (10+75)){
+    println("facile");
+    level = 0;
+    debut();
+  }
+  if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 200 && mouseY < (200+75)){
+    println("moyen");
+    level = 1;
+    debut();
+  }
+  if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 390 && mouseY < (390+75)){
+    println("facile");
+    level = 2;
+    debut();
   }
 }
 
@@ -256,6 +279,8 @@ void verification(){
   }
 }
 
+
+
 void debut(){
   
   difficulte();
@@ -318,6 +343,26 @@ void debut(){
   gazon=loadImage("gazon.png");
   gazon.loadPixels();
   
+  facile=loadImage("facile.png");
+  facile.resize(200,75);
+  facile.loadPixels();
+  
+  moyen=loadImage("moyen.png");
+  moyen.resize(200,75);
+  moyen.loadPixels();
+  
+  difficile=loadImage("difficile.png");
+  difficile.resize(200,75);
+  difficile.loadPixels();
+  
+  quitterMenu=loadImage("quitter_menu.png");
+  quitterMenu.resize(200,75);
+  quitterMenu.loadPixels();
+  
+  
+  
+  
+  
   
   //leopaul
   
@@ -333,5 +378,12 @@ void debut(){
 }
 
 void menu(){
+  
+  background(#cdcac9);
+  image(facile,500,10);
+  image(moyen,500,200);
+  image(difficile,500,390);
+  image(quitterMenu,500,580);
+  
   
 }
