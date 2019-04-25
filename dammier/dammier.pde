@@ -14,8 +14,8 @@ int colonne = 0;
 int num = 0;
 int numDrapeau = 0;
 boolean validation = false;
-boolean menu1 = false;
-int partie = 0; //0 => menu; 1 => en partie; 2 => perdu ; 3 => gagné
+boolean quitter = false; //Vaut true quand le bouton est affiché
+int partie = 0; //0 => menu; 1 => en partie; 3 => résultat
 
 PImage caseVide;
 PImage caseVideOuverte;
@@ -32,6 +32,7 @@ PImage mine;
 PImage valider;
 PImage gazon;
 PImage goldMine;
+PImage quitterIm;
 PImage facile;
 PImage moyen;
 PImage difficile;
@@ -68,8 +69,12 @@ void draw()
     } else {
       validation = false;
     }
-  } else if (partie == 0){
+    boutonQuitter(900,10);
+    quitter = true;
+  } else if (partie == 0){ //Le joueur est dans le menu
     menu();
+  } else if (partie == 3){ //Les resultat s'affiche
+    //resultat
   }
 }
 
@@ -81,11 +86,11 @@ void mousePressed() {
     if(mouseButton == LEFT){
       if (visible[i][j] != 11) visible[i][j]=cache[i][j]; //Si il n'y a pas de drapeau la case se révèle
       if (cache[i][j] == 0) visible[i][j] = 10; //Affiche une case vide
-      if (cache[i][j] ==9) image(drapeau,100,500);
+      if (cache[i][j] == 9){
+        afficherCase();
+        resultat(false);
+      }
     } else if(mouseButton == RIGHT){
-      println("right");
-      println(i);
-      println(j);
       if (visible[i][j] == 11){
         visible[i][j] = 0;
         numDrapeau--;//enleve le drapeau si il y en a 1
@@ -99,9 +104,12 @@ void mousePressed() {
     println("ok");
     verification();
   }
-  
-  
-   if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 10 && mouseY < (10+75)){
+  if (quitter == true && mouseX > 900 && mouseX < (260+900) && mouseY > 10 && mouseY < (10+130)){
+    partie = 0;
+    quitter = false;
+    println("quit");
+  }
+  if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 10 && mouseY < (10+75)){
     println("facile");
     level = 0;
     debut();
@@ -116,8 +124,7 @@ void mousePressed() {
     level = 2;
     debut();
   }
-  
-   if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 580 && mouseY < (580+75)){
+  if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 580 && mouseY < (580+75)){
     println("quitter");
     exit();
   }
@@ -246,22 +253,30 @@ void difficulte(){
     nbMines = 10;
     TX= 50;
     TY = 50;
+    decalageX=largeurF/2-250;
+    decalageY =hauteurF/2-250;
   } else if (level == 1){
     largeur = 16;
     hauteur = 16;
     nbMines = 40;
     TX= 35;
     TY = 35;
+    decalageX=largeurF/2-350;
+    decalageY =hauteurF/2-250;
   } else if (level == 2){
     largeur = 30;
     hauteur = 16;
     nbMines = 99;
     TX= 20;
     TY = 35;
+    decalageX=largeurF/2-350;
+    decalageY =hauteurF/2-250;
   }
 }
 
 void verification(){
+  boolean gagner = true;
+  long lastTime = millis();
   for (int i = 0; i < largeur; i++){
     for(int j = 0; j < hauteur; j++){
       if (cache[i][j] == 9){
@@ -273,18 +288,14 @@ void verification(){
          
         } else {
           visible[i][j] = 9;
-          partie = 2;
+          gagner = false;
         }
       }
     }
   }
-  afficherCase();
-  if (partie == 1){
-    //Afficher GAGNE
-  }
+  afficherCase(); 
+  resultat(gagner);
 }
-
-
 
 void debut(){
   
@@ -348,25 +359,25 @@ void debut(){
   gazon=loadImage("gazon.png");
   gazon.loadPixels();
   
+  quitterIm=loadImage("quitter.png");
+  quitterIm.resize(260,130);
+  quitterIm.loadPixels();
+  
   facile=loadImage("facile.png");
   facile.resize(200,75);
   facile.loadPixels();
-  
+
   moyen=loadImage("moyen.png");
   moyen.resize(200,75);
   moyen.loadPixels();
-  
+
   difficile=loadImage("difficile.png");
   difficile.resize(200,75);
   difficile.loadPixels();
-  
+
   quitterMenu=loadImage("quitter_menu.png");
   quitterMenu.resize(200,75);
   quitterMenu.loadPixels();
-  
-  
-  
-  
   
   
   //leopaul
@@ -384,11 +395,20 @@ void debut(){
 
 void menu(){
   
-  background(#cdcac9);
+    background(#cdcac9);
   image(facile,500,10);
   image(moyen,500,200);
   image(difficile,500,390);
   image(quitterMenu,500,580);
   
-  
+}
+
+void boutonQuitter(int x, int y){ //Affiche le bouton Quitter
+  image(quitterIm,x,y);
+}
+
+void resultat(boolean gagner){
+  if (gagner == true); //image win
+  if (gagner == false); //image perdu
+  partie = 3;
 }
