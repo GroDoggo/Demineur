@@ -53,7 +53,7 @@ void setup ()
 /* la méthode qui s'exécute en boucle */
 void draw()
 {
-  if (partie == 1){
+  if (partie == 1){ //Le joueur est dans une partie
     background (gazon);
     afficherCase ();
     if(numDrapeau == nbMines){
@@ -240,7 +240,8 @@ void verification(){
         
        
         if (visible[i][j] == 11){
-          visible[i][j] = 12; //mine en jaune
+          visible[i][j] = 12;
+          cache[i][j] = 12;//mine en jaune
          
         } else {
           visible[i][j] = 9;
@@ -329,4 +330,8 @@ void debut(){
       print(cache[i][j]);
     }
   }
+}
+
+void menu(){
+  
 }
