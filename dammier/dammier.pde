@@ -85,7 +85,10 @@ void mousePressed() {
   if (i >= 0 && i < largeur && j >= 0 && j < hauteur){
     if(mouseButton == LEFT){
       if (visible[i][j] != 11) visible[i][j]=cache[i][j]; //Si il n'y a pas de drapeau la case se révèle
-      if (cache[i][j] == 0) visible[i][j] = 10; //Affiche une case vide
+      if (cache[i][j] == 0){
+        visible[i][j] = 10; //Affiche une case vide
+        caseBlanche(i,j);
+      }
       if (cache[i][j] == 9){
         afficherCase();
         resultat(false);
@@ -276,7 +279,6 @@ void difficulte(){
 
 void verification(){
   boolean gagner = true;
-  long lastTime = millis();
   for (int i = 0; i < largeur; i++){
     for(int j = 0; j < hauteur; j++){
       if (cache[i][j] == 9){
@@ -411,4 +413,81 @@ void resultat(boolean gagner){
   if (gagner == true); //image win
   if (gagner == false); //image perdu
   partie = 3;
+}
+
+void caseBlanche(int x, int y)
+{
+  
+  if (x != 0 && y != 0){
+      if (cache[x-1][y-1] == 0 && visible[x-1][y-1] == 0){
+           visible[x-1][y-1] = 10;
+           caseBlanche(x-1,y-1);
+           
+      } else if (cache[x-1][y-1] != 9 && visible[x-1][y-1] == 0){
+        visible[x-1][y-1] = cache[x-1][y-1];
+      }
+  }
+  if (y != 0){
+     if (cache[x][y-1] == 0 && visible[x][y-1] == 0) {
+         visible[x][y-1] = 10;
+         caseBlanche(x,y-1);
+         
+     } else if (cache[x][y-1] != 9 && visible[x][y-1] == 0){
+        visible[x][y-1] = cache[x][y-1];
+      }
+  }
+  if (x != (largeur-1) && y != 0){
+     if (cache[x+1][y-1] == 0 && visible[x+1][y-1] == 0){
+       visible[x+1][y-1] = 10;
+       caseBlanche(x+1,y-1);
+       
+     } else if (cache[x+1][y-1] != 9 && visible[x+1][y-1] == 0){
+        visible[x+1][y-1] = cache[x+1][y-1];
+      }
+  }
+  if (x != 0){
+     if (cache[x-1][y] == 0 && visible[x-1][y] == 0){
+       visible[x-1][y] = 10;
+       caseBlanche(x-1,y);
+       
+     } else if (cache[x-1][y] != 9 && visible[x-1][y] == 0){
+        visible[x-1][y] = cache[x-1][y];
+      }
+  }
+  if (x !=(largeur-1)){
+     if (cache[x+1][y] == 0 && visible[x+1][y] == 0){
+       visible[x+1][y] = 10;
+       caseBlanche(x+1,y);
+      
+     } else if (cache[x+1][y] != 9 && visible[x+1][y] == 0){
+        visible[x+1][y] = cache[x+1][y];
+      }
+  }
+  if (x != 0 && y != (hauteur-1)){
+     if (cache[x-1][y+1] == 0 && visible[x-1][y+1] == 0){
+       visible[x-1][y+1] = 10;
+       caseBlanche(x-1,y+1);
+      
+     } else if (cache[x-1][y+1] != 9 && visible[x-1][y+1] == 0){
+        visible[x-1][y+1] = cache[x-1][y+1];
+      }
+  }
+  if (y != (hauteur - 1)){
+     if (cache[x][y+1] == 0 && visible[x][y+1] == 0){
+       visible[x][y+1] = 10;
+       caseBlanche(x,y+1);
+       
+     }else if (cache[x][y+1] != 9 && visible[x][y+1] == 0){
+        visible[x][y+1] = cache[x][y+1];
+      }
+  }
+  if (x != (largeur-1) && y != (hauteur-1)){
+     if (cache[x+1][y+1] == 0 && visible[x+1][y+1] == 0){
+       visible[x+1][y+1] = 10;
+       caseBlanche(x+1,y+1);
+       
+     } else if (cache[x+1][y+1] != 9 && visible[x+1][y+1] == 0){
+        visible[x+1][y+1] = cache[x+1][y+1];
+      }
+  }
 }
