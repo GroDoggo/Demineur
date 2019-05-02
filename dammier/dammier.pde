@@ -16,6 +16,7 @@ int numDrapeau = 0;
 boolean validation = false;
 boolean quitter = false; //Vaut true quand le bouton est affiché
 int partie = 0; //0 => menu; 1 => en partie; 3 => résultat
+boolean gagnerP = true;
 
 PImage caseVide;
 PImage caseVideOuverte;
@@ -37,6 +38,13 @@ PImage facile;
 PImage moyen;
 PImage difficile;
 PImage quitterMenu;
+PImage recommencer;
+PImage voirR;
+PImage fd1;
+PImage fd2;
+PImage fd3;
+PImage victoire;
+PImage gameOver;
 
 int TX= 50;
 int TY = 50;
@@ -82,7 +90,7 @@ void draw()
 void mousePressed() {
   int i = (mouseX - decalageX) / TX;
   int j = (mouseY - decalageY) / TY;
-  if (i >= 0 && i < largeur && j >= 0 && j < hauteur){
+  if (i >= 0 && i < largeur && j >= 0 && j < hauteur && partie == 1){
     if(mouseButton == LEFT){
       if (visible[i][j] != 11) visible[i][j]=cache[i][j]; //Si il n'y a pas de drapeau la case se révèle
       if (cache[i][j] == 0){
@@ -130,6 +138,28 @@ void mousePressed() {
   if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 580 && mouseY < (580+75)){
     println("quitter");
     exit();
+  }
+  if (partie == 3 && mouseX > 200 && mouseX < (200+200) && mouseY > 580 && mouseY < (650+75)){
+    println("recommencer");
+    debut();
+  }
+  if (partie == 3 && mouseX > 500 && mouseX < (200+500) && mouseY > 580 && mouseY < (650+75)){
+    println("quitterPartie");
+    partie = 0;
+    quitter = false;
+  }
+  if (partie == 3 && mouseX > 800 && mouseX < (200+800) && mouseY > 580 && mouseY < (650+75)){
+    println("voir Resultat");
+    partie = 4;
+    background (gazon);
+    afficherCase();
+    image(quitterMenu, 900, 650);
+  }
+  if (partie == 4 && mouseX > 900 && mouseX < (200+900) && mouseY > 580 && mouseY < (650+75)){
+    println("quit Resultat");
+    background (gazon);
+    afficherCase();
+    resultat(gagnerP);
   }
 }
 
@@ -358,8 +388,17 @@ void debut(){
   valider.resize(260,130);
   valider.loadPixels();
   
-  gazon=loadImage("gazon.png");
-  gazon.loadPixels();
+  fd1=loadImage("fd1.jpg");
+  fd1.resize(1200,750);
+  fd1.loadPixels();
+  
+  fd2=loadImage("fd2.jpg");
+  fd2.resize(1200,750);
+  fd2.loadPixels();
+  
+  fd3=loadImage("fd3.jpg");
+  fd3.resize(1200,750);
+  fd3.loadPixels();
   
   quitterIm=loadImage("quitter.png");
   quitterIm.resize(260,130);
@@ -381,6 +420,27 @@ void debut(){
   quitterMenu.resize(200,75);
   quitterMenu.loadPixels();
   
+  recommencer=loadImage("recommencer.png");
+  recommencer.resize(200,75);
+  recommencer.loadPixels();
+  
+  voirR=loadImage("voirR.png");
+  voirR.resize(200,75);
+  voirR.loadPixels();
+  
+  victoire=loadImage("victoire.jpg");
+  victoire.resize(1200,750);
+  victoire.loadPixels();
+  
+  gameOver=loadImage("gamOver.jpg");
+  gameOver.resize(1200,750);
+  gameOver.loadPixels();
+  
+  int fond = int(random(3));
+  
+  if (fond == 1) gazon = fd1;
+  if (fond == 0) gazon = fd2;
+  if (fond == 2) gazon = fd3;
   
   //leopaul
   
@@ -410,9 +470,13 @@ void boutonQuitter(int x, int y){ //Affiche le bouton Quitter
 }
 
 void resultat(boolean gagner){
-  if (gagner == true); //image win
-  if (gagner == false); //image perdu
+  if (gagner == true) background(victoire); //image win
+  if (gagner == false) background(gameOver); //image perdu
+  gagnerP = gagner;
   partie = 3;
+  image(recommencer, 200, 650);
+  image(quitterMenu, 500, 650);
+  image(voirR, 800, 650);
 }
 
 void caseBlanche(int x, int y)
