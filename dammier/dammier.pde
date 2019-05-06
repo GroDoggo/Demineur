@@ -333,14 +333,14 @@ void debut(){
   
   difficulte();
   //Sylvain
-  caseVide=loadImage("caseVide.PNG");
+  caseVide=loadImage("caseVide (2).PNG");
   caseVide.resize(TX,TY);
   caseVide.loadPixels();
   case1=loadImage("1.PNG");
    case1.resize(TX,TY);
   case1.loadPixels();
   
-  caseVideOuverte=loadImage("caseVideOuverte.png");
+  caseVideOuverte=loadImage("caseVideOuverte (2).png");
   caseVideOuverte.resize(TX,TY);
   caseVideOuverte.loadPixels();
   
