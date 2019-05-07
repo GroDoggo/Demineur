@@ -43,8 +43,10 @@ PImage voirR;
 PImage fd1;
 PImage fd2;
 PImage fd3;
+PImage fdmenu;
 PImage victoire;
 PImage gameOver;
+PImage banniere;
 
 int TX= 50;
 int TY = 50;
@@ -59,8 +61,7 @@ int [][] visible = new int[100][100];
 void setup ()
 {
   size (1200,750); 
-  background (#000080);
-  debut();
+   debut();
   partie = 0;
 }
 
@@ -77,7 +78,7 @@ void draw()
     } else {
       validation = false;
     }
-    boutonQuitter(900,10);
+    boutonQuitter(1140,20);
     quitter = true;
   } else if (partie == 0){ //Le joueur est dans le menu
     menu();
@@ -110,52 +111,42 @@ void mousePressed() {
         numDrapeau++;//place un drapeau si la case n'a pas été découverte
       }
     }
-  }
-  if (validation == true && mouseX > 40 && mouseX < (260+40) && mouseY > 50 && mouseY < (50+130)){
+  } else if (validation == true && mouseX > 40 && mouseX < (260+40) && mouseY > 50 && mouseY < (50+130)){
     println("ok");
     verification();
-  }
-  if (quitter == true && mouseX > 900 && mouseX < (260+900) && mouseY > 10 && mouseY < (10+130)){
+  }else if (quitter == true && mouseX > 1140 && mouseX < (1140+40) && mouseY > 20 && mouseY < (20+40)){
     partie = 0;
     quitter = false;
     println("quit");
-  }
-  if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 10 && mouseY < (10+75)){
+  } else if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 10 && mouseY < (10+75)){
     println("facile");
     level = 0;
     debut();
-  }
-  if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 200 && mouseY < (200+75)){
+  }else if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 200 && mouseY < (200+75)){
     println("moyen");
     level = 1;
     debut();
-  }
-  if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 390 && mouseY < (390+75)){
+  }else if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 390 && mouseY < (390+75)){
     println("difficile");
     level = 2;
     debut();
-  }
-  if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 580 && mouseY < (580+75)){
+  }else if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 580 && mouseY < (580+75)){
     println("quitter");
     exit();
-  }
-  if (partie == 3 && mouseX > 200 && mouseX < (200+200) && mouseY > 580 && mouseY < (650+75)){
+  }else if (partie == 3 && mouseX > 200 && mouseX < (200+200) && mouseY > 580 && mouseY < (650+75)){
     println("recommencer");
     debut();
-  }
-  if (partie == 3 && mouseX > 500 && mouseX < (200+500) && mouseY > 580 && mouseY < (650+75)){
+  }else if (partie == 3 && mouseX > 500 && mouseX < (200+500) && mouseY > 580 && mouseY < (650+75)){
     println("quitterPartie");
     partie = 0;
     quitter = false;
-  }
-  if (partie == 3 && mouseX > 800 && mouseX < (200+800) && mouseY > 580 && mouseY < (650+75)){
+  }else if (partie == 3 && mouseX > 800 && mouseX < (200+800) && mouseY > 580 && mouseY < (650+75)){
     println("voir Resultat");
     partie = 4;
     background (gazon);
     afficherCase();
     image(quitterMenu, 900, 650);
-  }
-  if (partie == 4 && mouseX > 900 && mouseX < (200+900) && mouseY > 580 && mouseY < (650+75)){
+  }else if (partie == 4 && mouseX > 900 && mouseX < (200+900) && mouseY > 580 && mouseY < (650+75)){
     println("quit Resultat");
     background (gazon);
     afficherCase();
@@ -400,8 +391,12 @@ void debut(){
   fd3.resize(1200,750);
   fd3.loadPixels();
   
-  quitterIm=loadImage("quitter.png");
-  quitterIm.resize(260,130);
+   fdmenu=loadImage("fdmenu.jpg");
+  fdmenu.resize(1200,750);
+  fdmenu.loadPixels();
+  
+  quitterIm=loadImage("croix.png");
+  quitterIm.resize(40,40);
   quitterIm.loadPixels();
   
   facile=loadImage("facile.png");
@@ -436,6 +431,10 @@ void debut(){
   gameOver.resize(1200,750);
   gameOver.loadPixels();
   
+  banniere=loadImage("banniere.png");
+  banniere.resize(1200,150);
+  banniere.loadPixels();
+  
   int fond = int(random(3));
   
   if (fond == 1) gazon = fd1;
@@ -457,7 +456,7 @@ void debut(){
 
 void menu(){
   
-    background(#cdcac9);
+    background(fdmenu);
   image(facile,500,10);
   image(moyen,500,200);
   image(difficile,500,390);
