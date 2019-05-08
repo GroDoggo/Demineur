@@ -1,3 +1,12 @@
+import processing.sound.*;
+SoundFile file1;
+SoundFile file2;
+SoundFile file3;
+
+/*file1 = new SoundFile(this, "musique1.mp3");
+file2 = new SoundFile(this, "musique1.mp3");
+file3 = new SoundFile(this, "musique1.mp3"); */
+
 ////////////////////
 //Afficher Damier///
 ////////////////////
@@ -61,8 +70,13 @@ int [][] visible = new int[100][100];
 void setup ()
 {
   size (1200,750); 
-   debut();
-  partie = 0;
+  
+  file1 = new SoundFile(this, "musique1.mp3");
+   file2 = new SoundFile(this, "musique1.mp3");
+   file3 = new SoundFile(this, "musique1.mp3");
+   debut(); //initialiser les images
+   partie = 0; //envoyer vers le menu
+   
 }
 
 
@@ -437,9 +451,17 @@ void debut(){
   
   int fond = int(random(3));
   
-  if (fond == 1) gazon = fd1;
-  if (fond == 0) gazon = fd2;
+  if (fond == 0) gazon = fd1;
+  if (fond == 1) gazon = fd2;
   if (fond == 2) gazon = fd3;
+  
+  int musique = int(random(3));
+  
+  if (musique == 0) file1.play();
+  if (musique == 1) file2.play();
+  if (musique == 2) file3.play();
+  
+  
   
   //leopaul
   
