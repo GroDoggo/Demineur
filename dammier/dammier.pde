@@ -118,19 +118,19 @@ void mousePressed() {
     partie = 0;
     quitter = false;
     println("quit");
-  } else if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 10 && mouseY < (10+75)){
+  } else if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 200 && mouseY < (200+75)){
     println("facile");
     level = 0;
     debut();
-  }else if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 200 && mouseY < (200+75)){
+  }else if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 350 && mouseY < (350+75)){
     println("moyen");
     level = 1;
     debut();
-  }else if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 390 && mouseY < (390+75)){
+  }else if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 500 && mouseY < (500+75)){
     println("difficile");
     level = 2;
     debut();
-  }else if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 580 && mouseY < (580+75)){
+  }else if (partie == 0 && mouseX > 500 && mouseX < (200+500) && mouseY > 650 && mouseY < (650+75)){
     println("quitter");
     exit();
   }else if (partie == 3 && mouseX > 200 && mouseX < (200+200) && mouseY > 580 && mouseY < (650+75)){
@@ -145,8 +145,8 @@ void mousePressed() {
     partie = 4;
     background (gazon);
     afficherCase();
-    image(quitterMenu, 900, 650);
-  }else if (partie == 4 && mouseX > 900 && mouseX < (200+900) && mouseY > 580 && mouseY < (650+75)){
+    image(quitterMenu, 920, 650);
+  }else if (partie == 4 && mouseX > 920 && mouseX < (200+920) && mouseY > 650 && mouseY < (650+75)){
     println("quit Resultat");
     background (gazon);
     afficherCase();
@@ -285,7 +285,7 @@ void difficulte(){
     nbMines = 40;
     TX= 35;
     TY = 35;
-    decalageX=largeurF/2-350;
+    decalageX=325;
     decalageY =hauteurF/2-250;
   } else if (level == 2){
     largeur = 30;
@@ -293,7 +293,7 @@ void difficulte(){
     nbMines = 99;
     TX= 20;
     TY = 35;
-    decalageX=largeurF/2-350;
+    decalageX=310;
     decalageY =hauteurF/2-250;
   }
 }
@@ -391,7 +391,7 @@ void debut(){
   fd3.resize(1200,750);
   fd3.loadPixels();
   
-   fdmenu=loadImage("fdmenu.jpg");
+   fdmenu=loadImage("fdmenu2.jpg");
   fdmenu.resize(1200,750);
   fdmenu.loadPixels();
   
@@ -431,10 +431,6 @@ void debut(){
   gameOver.resize(1200,750);
   gameOver.loadPixels();
   
-  banniere=loadImage("banniere.png");
-  banniere.resize(1200,150);
-  banniere.loadPixels();
-  
   int fond = int(random(3));
   
   if (fond == 1) gazon = fd1;
@@ -457,10 +453,10 @@ void debut(){
 void menu(){
   
     background(fdmenu);
-  image(facile,500,10);
-  image(moyen,500,200);
-  image(difficile,500,390);
-  image(quitterMenu,500,580);
+  image(facile,500,200);
+  image(moyen,500,350);
+  image(difficile,500,500);
+  image(quitterMenu,500,650);
   
 }
 
