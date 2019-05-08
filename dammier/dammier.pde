@@ -70,10 +70,15 @@ int [][] visible = new int[100][100];
 void setup ()
 {
   size (1200,750); 
+  background(#000000);
+  textSize(32);
+  fill(0, 102, 153);
+  text("Chargement des musiques",600,300);
+  delay(1000);
   
   file1 = new SoundFile(this, "musique1.mp3");
-   file2 = new SoundFile(this, "musique1.mp3");
-   file3 = new SoundFile(this, "musique1.mp3");
+   file2 = new SoundFile(this, "musique2.mp3");
+   file3 = new SoundFile(this, "musique3.mp3");
    debut(); //initialiser les images
    partie = 0; //envoyer vers le menu
    
@@ -453,6 +458,12 @@ void debut(){
   
   int musique = int(random(3));
   
+  file1.stop();
+  file2.stop();
+  file3.stop();
+  
+  delay(1000);
+  
   if (musique == 0) file1.play();
   if (musique == 1) file2.play();
   if (musique == 2) file3.play();
@@ -491,6 +502,21 @@ void resultat(boolean gagner){
   if (gagner == false) background(gameOver); //image perdu
   gagnerP = gagner;
   partie = 3;
+  for (int i = 0; i < largeur; i++){
+    for(int j = 0; j < hauteur; j++){
+      if (cache[i][j] == 9){
+        
+       
+        if (visible[i][j] == 11){
+          visible[i][j] = 12;
+          cache[i][j] = 12;//mine en jaune
+         
+        } else {
+          visible[i][j] = 9;
+        }
+      }
+    }
+  }
   image(recommencer, 200, 650);
   image(quitterMenu, 500, 650);
   image(voirR, 800, 650);
