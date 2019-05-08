@@ -2,6 +2,8 @@ import processing.sound.*;
 SoundFile file1;
 SoundFile file2;
 SoundFile file3;
+SoundFile explosion;
+SoundFile reussite;
 
 /*file1 = new SoundFile(this, "musique1.mp3");
 file2 = new SoundFile(this, "musique1.mp3");
@@ -26,6 +28,12 @@ boolean validation = false;
 boolean quitter = false; //Vaut true quand le bouton est affiché
 int partie = 0; //0 => menu; 1 => en partie; 3 => résultat
 boolean gagnerP = true;
+int passedTime;
+int savedTime;
+int musiqueTime;
+int seconde;
+int minute;
+float volume = 1;
 
 PImage caseVide;
 PImage caseVideOuverte;
@@ -79,6 +87,8 @@ void setup ()
   file1 = new SoundFile(this, "musique1.mp3");
    file2 = new SoundFile(this, "musique2.mp3");
    file3 = new SoundFile(this, "musique3.mp3");
+   explosion = new SoundFile(this,"loose.mp3");
+   reussite = new SoundFile(this,"victoire.mp3");
    debut(); //initialiser les images
    partie = 0; //envoyer vers le menu
    
@@ -103,6 +113,18 @@ void draw()
     menu();
   } else if (partie == 3){ //Les resultat s'affiche
     //resultat
+  } if (file1.isPlaying() == false && file2.isPlaying() == false && file3.isPlaying() == false && partie == 1 && millis() - musiqueTime > 10000){
+    int musique = int(random(3));
+  
+    file1.stop();
+    file2.stop();
+    file3.stop();
+    reussite.stop();
+    musiqueTime = millis();
+    delay(1000);
+    if (musique == 0) file1.play();
+    if (musique == 1) file2.play();
+    if (musique == 2) file3.play();
   }
 }
 
@@ -170,6 +192,10 @@ void mousePressed() {
     background (gazon);
     afficherCase();
     resultat(gagnerP);
+  }else if (partie == 0 && mouseX > 1050 && mouseX < (100+1050) && mouseY > 200 && mouseY < (200+75)){
+    volume(true);
+  }else if (partie == 0 && mouseX > 1050 && mouseX < (100+1050) && mouseY > 300 && mouseY < (300+75)){
+    volume(false);
   }
 }
 
@@ -461,6 +487,11 @@ void debut(){
   file1.stop();
   file2.stop();
   file3.stop();
+  reussite.stop();
+  
+  musiqueTime = millis();
+  
+  
   
   delay(1000);
   
@@ -473,6 +504,9 @@ void debut(){
   //leopaul
   
   preparerMines();
+  savedTime = millis();
+  seconde = 0;
+  minute = 0;
   partie = 1;
   numDrapeau = 0;
   for (int j = 0 ; j < hauteur ; j++){
@@ -490,7 +524,9 @@ void menu(){
   image(moyen,500,350);
   image(difficile,500,500);
   image(quitterMenu,500,650);
-  
+  fill(#FFFFFF);
+  triangle(1100,200,1050,275,1150,275);
+  triangle(1100,375,1050,300,1150,300);
 }
 
 void boutonQuitter(int x, int y){ //Affiche le bouton Quitter
@@ -498,10 +534,33 @@ void boutonQuitter(int x, int y){ //Affiche le bouton Quitter
 }
 
 void resultat(boolean gagner){
-  if (gagner == true) background(victoire); //image win
-  if (gagner == false) background(gameOver); //image perdu
+  if (gagner == true){
+    background(victoire); //image win
+    if(minute == 0 && seconde == 0){
+      file1.stop();
+      file2.stop();
+      file3.stop();
+      reussite.play();
+    }
+  }
+  if (gagner == false){
+    background(gameOver); //image perdu
+    if(minute == 0 && seconde == 0)    explosion.play();
+  }
   gagnerP = gagner;
   partie = 3;
+  if(minute == 0 && seconde == 0){
+    passedTime = millis()- savedTime; //on arrete le timer
+    println(savedTime);
+    println(passedTime);
+    seconde = passedTime / 1000;
+    minute = seconde / 60;
+    seconde = seconde % 60;
+  }
+  textSize(41);
+  fill(#FFFFFF);
+  text("Timer:",1050,200);
+  text(minute + "min " + seconde + "s", 1010, 300);
   for (int i = 0; i < largeur; i++){
     for(int j = 0; j < hauteur; j++){
       if (cache[i][j] == 9){
@@ -596,5 +655,23 @@ void caseBlanche(int x, int y)
      } else if (cache[x+1][y+1] != 9 && visible[x+1][y+1] == 0){
         visible[x+1][y+1] = cache[x+1][y+1];
       }
+  }
+}
+
+void volume(boolean monter){
+  if (monter == true && volume < 1){
+    volume = volume + 0.1;
+    file1.amp(volume);
+    file2.amp(volume);
+    file3.amp(volume);
+    reussite.amp(volume);
+    explosion.amp(volume);
+  } else if (monter == false && volume > 0){
+    volume = volume - 0.1;
+    file1.amp(volume);
+    file2.amp(volume);
+    file3.amp(volume);
+    reussite.amp(volume);
+    explosion.amp(volume);
   }
 }
