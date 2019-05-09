@@ -33,7 +33,13 @@ int savedTime;
 int musiqueTime;
 int seconde;
 int minute;
+int Bseconde;
+int Bminute;
 float volume = 1;
+String[] contenuFile;
+String meilleurScore;
+int int_meilleurScore;
+String nom;
 
 PImage caseVide;
 PImage caseVideOuverte;
@@ -144,7 +150,7 @@ void mousePressed() {
         visible[i][j] = 10; //Affiche une case vide
         caseBlanche(i,j);
       }
-      if (cache[i][j] == 9){
+      if (cache[i][j] == 9 && visible[i][j] != 11){
         afficherCase();
         resultat(false);
       }
@@ -562,11 +568,44 @@ void resultat(boolean gagner){
     seconde = passedTime / 1000;
     minute = seconde / 60;
     seconde = seconde % 60;
+    if (gagner == true){ //meilleur score  
+      contenuFile = loadStrings("scores.txt");
+      meilleurScore = contenuFile[level];  
+      int_meilleurScore = Integer.parseInt(meilleurScore); //on prend le meilleur score
+      println(meilleurScore);
+      if (int_meilleurScore > passedTime){
+        String[] inserer = new String[4];
+        if (level == 0){
+          inserer[0] = String.valueOf(passedTime);
+          inserer[1] = contenuFile[1];
+          inserer[2] = contenuFile[2];
+        } else if (level == 1){
+          inserer[0] = contenuFile[0];
+          inserer[1] = String.valueOf(passedTime);
+          inserer[2] = contenuFile[2];
+        } else if (level == 2){
+          inserer[0] = contenuFile[0];
+          inserer[1] = contenuFile[1];
+          inserer[2] = String.valueOf(passedTime);
+        }
+        println(inserer[0]);
+        saveStrings("data/scores.txt", inserer);  
+        println("best");
+      } 
+    }
+    contenuFile = loadStrings("scores.txt");
+    meilleurScore = contenuFile[level];
+    int_meilleurScore = Integer.parseInt(meilleurScore);
+    Bseconde = int_meilleurScore / 1000;
+    Bminute = Bseconde / 60;
+    Bseconde = Bseconde % 60;
   }
   textSize(41);
   fill(#FFFFFF);
   text("Timer:",1050,200);
   text(minute + "min " + seconde + "s", 1010, 300);
+  text("Best:",50,200);
+  text(Bminute + "min " + Bseconde + "s", 10, 300);
   for (int i = 0; i < largeur; i++){
     for(int j = 0; j < hauteur; j++){
       if (cache[i][j] == 9){
